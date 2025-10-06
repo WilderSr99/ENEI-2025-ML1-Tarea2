@@ -1,0 +1,29 @@
+# ============================================================
+# Requisitos para desarrollar el proyecto ENEI-2025-ML1-Tarea2
+# "Regresión Logística y Extensiones Multiclase"
+# ============================================================
+
+# Manipulación de datos 
+numpy>=1.24.0
+pandas>=2.0.0
+
+# Visualización 
+matplotlib>=3.7.0
+seaborn>=0.13.0
+
+# Modelos y evaluación 
+scikit-learn>=1.4.0
+
+# Acceso a datasets 
+openml>=0.14.0
+
+# Utilidades 
+joblib>=1.3.0
+
+# (Opcional pero recomendado para notebooks limpios)
+jupyter>=1.0.0
+ipykernel>=6.29.0
+tqdm>=4.66.0
+
+# Para la instalación de paquetes
+ #pip install -r requirements.txt

@@ -15,7 +15,7 @@ ENEI-2025-ML1-Tarea2/
 │   # seaborn (opcional)
 │
 ├── data/
-│   ├── README.md                  # Explica el origen de los datasets
+│   ├── README.md                  # Explicamos el origen de los datasets
 │   ├── heart_disease.csv          # (opcional si no se descarga vía fetch_openml)
 │   └── wine.csv                   # (opcional si no se carga desde sklearn.datasets)
 │

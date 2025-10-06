@@ -1,0 +1,25 @@
+# =============================================
+# Ignorar entorno virtual y archivos temporales
+# =============================================
+
+# Entorno virtual
+venv/
+
+# Archivos temporales de notebooks
+.ipynb_checkpoints/
+
+# Cache de Python
+__pycache__/
+*.pyc
+
+# Configuración del sistema operativo
+.DS_Store
+
+# Archivos de entorno
+.env
+*.env
+.venv/
+
+# Carpetas ocultas de VSCode y Jupyter
+.vscode/
+.jupyter/
