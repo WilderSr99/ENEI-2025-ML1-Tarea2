@@ -67,3 +67,34 @@ def load_heart_data(test_size=0.3, random_state=42):
     print("✅ UCI id=45 preprocesado (sin imputar, filas con NaN eliminadas).")
     print(f"Train: {X_train.shape} | Test: {X_test.shape}")
     return X_train, X_test, y_train.to_numpy(), y_test.to_numpy(), feature_names
+
+# ==============================================================
+# load_wine_data — dataset Wine (3 clases, 13 features)
+#  - Estandarización de TODAS las características
+#  - Split 70/30 con estratificación
+# ==============================================================
+
+from sklearn.datasets import load_wine
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+
+def load_wine_data(test_size=0.3, random_state=42):
+    data = load_wine(as_frame=True)
+    X = data.data.copy()      # (178, 13)
+    y = data.target.copy()    # valores {0,1,2}
+
+    # Estandarizar TODAS las features
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X)
+
+    # 70/30 estratificado
+    X_train, X_test, y_train, y_test = train_test_split(
+        X_scaled, y, test_size=test_size, random_state=random_state, stratify=y
+    )
+
+    feature_names = X.columns.tolist()
+    class_names = data.target_names.tolist()
+
+    print("✅ Wine cargado y estandarizado")
+    print(f"Train: {X_train.shape} | Test: {X_test.shape}")
+    return X_train, X_test, y_train, y_test, feature_names, class_names
