@@ -14,10 +14,6 @@ ENEI-2025-ML1-Tarea2/
 │   # scikit-learn
 │   # seaborn (opcional)
 │
-├── data/
-│   ├── README.md                  # Explicamos el origen de los datasets
-│   ├── heart_disease.csv          # (opcional si no se descarga vía fetch_openml)
-│   └── wine.csv                   # (opcional si no se carga desde sklearn.datasets)
 │
 ├── src/
 │   ├── ParteA_Logistic_Binaria.ipynb      # Implementación binaria desde cero + sklearn
@@ -37,12 +33,8 @@ ENEI-2025-ML1-Tarea2/
 │       ├── curva_convergencia_binaria.png
 │       ├── matriz_confusion_ova.png
 │       ├── matriz_confusion_softmax.png
-│       └── comparacion_coeficientes.png
+│       └── comparacion_coeficientes.png (etc.)
 │
-├── notebooks/
-│   ├── exploracion_datos.ipynb            # Exploración inicial (EDA)
-│   ├── pruebas_lr.ipynb                   # Pruebas con tasas de aprendizaje
-│   └── comparacion_modelos.ipynb          # Comparación sklearn vs implementación
 │
 └── .gitignore
     # Ignorar: __pycache__/, .ipynb_checkpoints/, .DS_Store, etc.
