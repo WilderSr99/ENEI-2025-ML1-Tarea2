@@ -62,7 +62,7 @@ Las curvas de *log-likelihood* mostraron convergencia monótona:
 ## 2. Regresión Logística Multiclase - One-vs-All (OvA)
 
 ### Concepto
-Para el caso multiclase, el esquema OvA descompone el problema en $K$ clasificadores binarios (uno por clase):
+Para el caso multiclase, el esquema OvA descompone el problema en $\K $ clasificadores binarios (uno por clase):
 
 $$
 \nabla_{w_k} \ell = X^\top(y_k - p_k)
@@ -135,8 +135,8 @@ donde $Y$ representa las etiquetas *one-hot* y $P$ las probabilidades predichas.
 
 ## Convergencia
 
--   **NLL inicial:** 1.0997\
--   **NLL final:** 0.0116 (≈ 1500 iteraciones)\
+-   **NLL inicial:** 1.0997
+-   **NLL final:** 0.0116 (≈ 1500 iteraciones)
 -   **Comportamiento:** Curva descendente estable y sin oscilaciones.
 
 > *Sin la corrección* $z \mathrel{-}= \max(z)$, el NLL diverge a valores mayores que $10^3$ en menos de 50 iteraciones.
@@ -145,8 +145,8 @@ donde $Y$ representa las etiquetas *one-hot* y $P$ las probabilidades predichas.
 
 ## Métricas
 
--   **Accuracy (Softmax scratch):** ≈ 0.982\
--   **Precision / Recall / F1:** similares a OvA\
+-   **Accuracy (Softmax scratch):** $$≈ 0.982$
+-   **Precision / Recall / F1:** similares a OvA
 -   **Scikit-learn:** `multi_class="multinomial", solver="lbfgs"`\
     Resultados idénticos, validando el gradiente vectorizado.
 
@@ -159,7 +159,7 @@ donde $Y$ representa las etiquetas *one-hot* y $P$ las probabilidades predichas.
 | **Entrenamiento** | $K$ modelos binarios independientes | Un solo modelo con parámetros conjuntos |
 | **Normalización** | Las probabilidades pueden no sumar 1 | La suma siempre es 1 |
 | **Interacción entre clases** | Independiente | Competitiva (mutua exclusión) |
-| **Estabilidad numérica** | Alta | Requiere centrado ($z \mathrel{-}= \max(z)$) |
+| **Estabilidad numérica** | Alta | Requiere centrado ($z\mathrel{-}= \max(z)$) |
 | **Rendimiento en Wine** | Accuracy = 0.981 | Accuracy = 0.982 |
 | **Interpretación** | Modular y simple | Coherente y teóricamente sólida |
 
@@ -176,7 +176,7 @@ donde $Y$ representa las etiquetas *one-hot* y $P$ las probabilidades predichas.
 
 -   La implementación desde cero produjo resultados **idénticos** a los de *scikit-learn*, confirmando la correcta derivación de los gradientes y la estabilidad de la optimización.
 
--   El truco de **estabilidad numérica** en Softmax ($z \mathrel{-}= \max(z)$) es indispensable para evitar *overflow* en la función exponencial.
+-   El truco de **estabilidad numérica** en Softmax $$z\mathrel{-}= \max(z)$$ es indispensable para evitar *overflow* en la función exponencial.
 
 -   Los coeficientes obtenidos son consistentes y permiten **interpretar de forma clara** qué variables químicas determinan cada variedad de vino.
 
@@ -190,8 +190,8 @@ donde $Y$ representa las etiquetas *one-hot* y $P$ las probabilidades predichas.
 
 La implementación práctica y teórica de la **regresión logística** demuestra dominio de los conceptos de:
 
--   Optimización y gradiente\
--   Estabilidad numérica\
+-   Optimización y gradiente
+-   Estabilidad numérica
 -   Modelado probabilístico
 
 El modelo **Softmax multinomial** se consolida como la **extensión más completa y estable**, mientras que el enfoque **One-vs-All** ofrece **simplicidad y gran rendimiento** en contextos bien definidos.
