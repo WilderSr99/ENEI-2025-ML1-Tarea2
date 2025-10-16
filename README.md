@@ -62,7 +62,7 @@ Las curvas de *log-likelihood* mostraron convergencia monótona:
 ## 2. Regresión Logística Multiclase - One-vs-All (OvA)
 
 ### Concepto
-Para el caso multiclase, el esquema OvA descompone el problema en $\K $ clasificadores binarios (uno por clase):
+Para el caso multiclase, el esquema OvA descompone el problema en $K$ clasificadores binarios (uno por clase):
 
 $$
 \nabla_{w_k} \ell = X^\top(y_k - p_k)
@@ -145,7 +145,7 @@ donde $Y$ representa las etiquetas *one-hot* y $P$ las probabilidades predichas.
 
 ## Métricas
 
--   **Accuracy (Softmax scratch):** $$≈ 0.982$
+-   **Accuracy (Softmax scratch):**≈ 0.982
 -   **Precision / Recall / F1:** similares a OvA
 -   **Scikit-learn:** `multi_class="multinomial", solver="lbfgs"`\
     Resultados idénticos, validando el gradiente vectorizado.
@@ -159,7 +159,7 @@ donde $Y$ representa las etiquetas *one-hot* y $P$ las probabilidades predichas.
 | **Entrenamiento** | $K$ modelos binarios independientes | Un solo modelo con parámetros conjuntos |
 | **Normalización** | Las probabilidades pueden no sumar 1 | La suma siempre es 1 |
 | **Interacción entre clases** | Independiente | Competitiva (mutua exclusión) |
-| **Estabilidad numérica** | Alta | Requiere centrado ($z\mathrel{-}= \max(z)$) |
+| **Estabilidad numérica** | Alta | Requiere centrado $(z -= \max(z))$ |
 | **Rendimiento en Wine** | Accuracy = 0.981 | Accuracy = 0.982 |
 | **Interpretación** | Modular y simple | Coherente y teóricamente sólida |
 
