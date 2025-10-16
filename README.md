@@ -1,11 +1,22 @@
-# Informe Técnico — Regresión Logística y Extensiones Multiclase
+
+# Informe Técnico - Regresión Logística y Extensiones Multiclase
+
+-------------------
+Curso: 2025-G1-910040-3-PEUCD-MACHINE LEARNING I
+-------------------
+## Integrantes del grupo
+
+	- *Buleje Ticse, Jean Carlos*
+	- *Sebastian Rios, Wilder Teddy*
+
+## Introducción 
 
 Este informe presenta el desarrollo completo del modelo de **Regresión Logística** y sus extensiones **One-vs-All (OvA)** y **Multinomial (Softmax)**, implementadas **desde cero** utilizando `numpy`, `pandas`, `matplotlib` y comparadas con los resultados obtenidos mediante `scikit-learn`.  
 Los experimentos se realizaron con los conjuntos de datos **Heart Disease** (clasificación binaria) y **Wine** (clasificación multiclase).
 
 ---
 
-## 1. Regresión Logística Binaria — *Heart Disease*
+## 1. Regresión Logística Binaria - *Heart Disease*
 
 ### Descripción del modelo
 El objetivo es predecir la presencia o ausencia de enfermedad cardíaca.  
@@ -48,7 +59,7 @@ Las curvas de *log-likelihood* mostraron convergencia monótona:
 
 ---
 
-## 2. Regresión Logística Multiclase — One-vs-All (OvA)
+## 2. Regresión Logística Multiclase - One-vs-All (OvA)
 
 ### Concepto
 Para el caso multiclase, el esquema OvA descompone el problema en $K$ clasificadores binarios (uno por clase):
@@ -71,8 +82,8 @@ $$
 | 0 | 0.947 | 1.000 | 0.973 |
 | 1 | 1.000 | 0.952 | 0.976 |
 | 2 | 1.000 | 1.000 | 1.000 |
-| **Promedio macro** | — | — | **0.983** |
-| **Accuracy global** | — | — | **0.98148** |
+| **Promedio macro** | - | - | **0.983** |
+| **Accuracy global** | - | - | **0.98148** |
 
 > El modelo de `sklearn (multi_class="ovr")` obtuvo idénticos resultados, confirmando la equivalencia teórica.
 
@@ -121,3 +132,68 @@ donde $Y$ representa las etiquetas *one-hot* y $P$ las probabilidades predichas.
   ```python
   z -= np.max(z, axis=1, keepdims=True)
   P = np.exp(z) / np.sum(np.exp(z), axis=1, keepdims=True)
+
+## Convergencia
+
+-   **NLL inicial:** 1.0997\
+-   **NLL final:** 0.0116 (≈ 1500 iteraciones)\
+-   **Comportamiento:** Curva descendente estable y sin oscilaciones.
+
+> 🔍 *Sin la corrección* $z \mathrel{-}= \max(z)$, el NLL diverge a valores mayores que $10^3$ en menos de 50 iteraciones.
+
+------------------------------------------------------------------------
+
+## Métricas
+
+-   **Accuracy (Softmax scratch):** ≈ 0.982\
+-   **Precision / Recall / F1:** similares a OvA\
+-   **Scikit-learn:** `multi_class="multinomial", solver="lbfgs"`\
+    → Resultados idénticos, validando el gradiente vectorizado.
+
+------------------------------------------------------------------------
+
+## 4. Comparación OvA vs Softmax
+
+| **Aspecto** | **One-vs-All (OvA)** | **Multinomial (Softmax)** |
+|------------------|------------------------|------------------------------|
+| **Entrenamiento** | $K$ modelos binarios independientes | Un solo modelo con parámetros conjuntos |
+| **Normalización** | Las probabilidades pueden no sumar 1 | La suma siempre es 1 |
+| **Interacción entre clases** | Independiente | Competitiva (mutua exclusión) |
+| **Estabilidad numérica** | Alta | Requiere centrado ($z \mathrel{-}= \max(z)$) |
+| **Rendimiento en Wine** | Accuracy = 0.981 | Accuracy = 0.982 |
+| **Interpretación** | Modular y simple | Coherente y teóricamente sólida |
+
+> **Observación:**\
+> En problemas linealmente separables, ambos modelos son equivalentes.\
+> En escenarios con clases correlacionadas o desbalanceadas, **Softmax** suele mostrar mejor *recall* en clases minoritarias y fronteras más suaves, mientras que **OvA** tiende a favorecer clases dominantes.
+
+------------------------------------------------------------------------
+
+## 5. Conclusiones Finales
+
+-   Las tres variantes (binaria, OvA y multinomial) comparten la misma base teórica:\
+    **maximizar la log-verosimilitud** de los datos mediante **descenso del gradiente**.
+
+-   La implementación desde cero produjo resultados **idénticos** a los de *scikit-learn*, confirmando la correcta derivación de los gradientes y la estabilidad de la optimización.
+
+-   El truco de **estabilidad numérica** en Softmax ($z \mathrel{-}= \max(z)$) es indispensable para evitar *overflow* en la función exponencial.
+
+-   Los coeficientes obtenidos son consistentes y permiten **interpretar de forma clara** qué variables químicas determinan cada variedad de vino.
+
+-   El esquema **One-vs-All** es más sencillo y modular, mientras que el **Softmax multinomial** es más robusto, coherente y probabilísticamente fundamentado.
+
+-   Los resultados experimentales alcanzaron **precisiones superiores al 98 %**, demostrando la correcta comprensión teórica y práctica del modelo de regresión logística y sus extensiones.
+
+------------------------------------------------------------------------
+
+### Conclusión general
+
+La implementación práctica y teórica de la **regresión logística** demuestra dominio de los conceptos de:
+
+-   Optimización y gradiente\
+-   Estabilidad numérica\
+-   Modelado probabilístico
+
+El modelo **Softmax multinomial** se consolida como la **extensión más completa y estable**, mientras que el enfoque **One-vs-All** ofrece **simplicidad y gran rendimiento** en contextos bien definidos.
+
+> 💡 Ambos enfoques, correctamente implementados, confirman el **poder de la regresión logística** como base para los modelos lineales de clasificación multiclase.

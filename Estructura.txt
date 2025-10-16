@@ -3,16 +3,16 @@ ENEI-2025-ML1-Tarea2/
 ├── README.md
 │   # Descripción general del proyecto:
 │   # - Integrantes
-│   # - Objetivos (Parte A, B, C)
-│   # - Cómo ejecutar el notebook
+│   # - (Parte A, B, C)
 │   # - Resultados principales
+│   # - Concluisiones 
 │
 ├── requirements.txt
 │   # numpy
 │   # pandas
 │   # matplotlib
 │   # scikit-learn
-│   # seaborn (opcional)
+│   # seaborn
 │
 │
 ├── src/
@@ -28,7 +28,6 @@ ENEI-2025-ML1-Tarea2/
 │   └── __init__.py
 │
 ├── report/
-│   ├── informe_regresion_logistica.md     # Artículo (~600 palabras)
 │   └── figuras/
 │       ├── curva_convergencia_binaria.png
 │       ├── matriz_confusion_ova.png
