@@ -145,7 +145,7 @@ donde $Y$ representa las etiquetas *one-hot* y $P$ las probabilidades predichas.
 
 ## Métricas
 
--   **Accuracy (Softmax scratch):**≈ 0.982
+-   **Accuracy (Softmax scratch):** ≈ 0.982
 -   **Precision / Recall / F1:** similares a OvA
 -   **Scikit-learn:** `multi_class="multinomial", solver="lbfgs"`\
     Resultados idénticos, validando el gradiente vectorizado.
