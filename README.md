@@ -6,8 +6,8 @@ Curso: 2025-G1-910040-3-PEUCD-MACHINE LEARNING I
 -------------------
 ## Integrantes del grupo
 
-	- *Buleje Ticse, Jean Carlos*
-	- *Sebastian Rios, Wilder Teddy*
+- *Buleje Ticse, Jean Carlos*
+- *Sebastian Rios, Wilder Teddy*
 
 ## Introducción 
 
@@ -139,7 +139,7 @@ donde $Y$ representa las etiquetas *one-hot* y $P$ las probabilidades predichas.
 -   **NLL final:** 0.0116 (≈ 1500 iteraciones)\
 -   **Comportamiento:** Curva descendente estable y sin oscilaciones.
 
-> 🔍 *Sin la corrección* $z \mathrel{-}= \max(z)$, el NLL diverge a valores mayores que $10^3$ en menos de 50 iteraciones.
+> *Sin la corrección* $z \mathrel{-}= \max(z)$, el NLL diverge a valores mayores que $10^3$ en menos de 50 iteraciones.
 
 ------------------------------------------------------------------------
 
@@ -148,7 +148,7 @@ donde $Y$ representa las etiquetas *one-hot* y $P$ las probabilidades predichas.
 -   **Accuracy (Softmax scratch):** ≈ 0.982\
 -   **Precision / Recall / F1:** similares a OvA\
 -   **Scikit-learn:** `multi_class="multinomial", solver="lbfgs"`\
-    → Resultados idénticos, validando el gradiente vectorizado.
+    Resultados idénticos, validando el gradiente vectorizado.
 
 ------------------------------------------------------------------------
 
@@ -196,4 +196,4 @@ La implementación práctica y teórica de la **regresión logística** demuestr
 
 El modelo **Softmax multinomial** se consolida como la **extensión más completa y estable**, mientras que el enfoque **One-vs-All** ofrece **simplicidad y gran rendimiento** en contextos bien definidos.
 
-> 💡 Ambos enfoques, correctamente implementados, confirman el **poder de la regresión logística** como base para los modelos lineales de clasificación multiclase.
+> Ambos enfoques, correctamente implementados, confirman el **poder de la regresión logística** como base para los modelos lineales de clasificación multiclase.
