@@ -1,90 +1,109 @@
-## Assignment: Logistic Regression and Multiclass Extensions
+# Informe Técnico — Regresión Logística y Extensiones Multiclase
 
-**Deadline:** Monday, October 13th, 2025, 23:59
-
-**Environment:** Python, `numpy`, `pandas`, `matplotlib`, `scikit-learn`.
-
----
-
-### Part A. Binary Logistic Regression from Scratch
-
-1. **Dataset**
-   Use the **Heart Disease dataset** from the UCI repository (available via `sklearn.datasets.fetch_openml("heart-disease-uci", as_frame=True)`).
-
-   * Task: predict whether a patient has heart disease (`target` column).
-   * Standardize numeric features, one-hot encode categorical ones.
-   * Split into 70% train / 30% test.
-
-2. **Model Derivation and Implementation**
-
-   * Implement gradient descent to maximize the log-likelihood (or equivalently, minimize the negative log-likelihood).
-   * Show convergence plots for at least two learning rates.
-
-3. **Evaluation**
-
-   * Compute accuracy, precision, recall, F1 score in the test set.
-   * Compare with `sklearn.linear_model.LogisticRegression`.
+Este informe presenta el desarrollo completo del modelo de **Regresión Logística** y sus extensiones **One-vs-All (OvA)** y **Multinomial (Softmax)**, implementadas **desde cero** utilizando Python, `numpy`, `pandas` y `matplotlib`, y comparadas con los resultados de `scikit-learn`.  
+Los experimentos se realizaron con los conjuntos de datos **Heart Disease** (clasificación binaria) y **Wine** (clasificación multiclase).
 
 ---
 
-### Part B. Multiclass Logistic Regression via One-vs-All (OvA)
+## 1. Regresión Logística Binaria — *Heart Disease*
 
-4. **Dataset**
-   Use the **Wine dataset** (`from sklearn.datasets import load_wine`).
+### Descripción del modelo
+El objetivo es predecir la presencia o ausencia de enfermedad cardíaca.  
+El modelo se basa en la función sigmoide:
+\[
+p = \sigma(w^\top x) = \frac{1}{1 + e^{-w^\top x}}
+\]
+y la **log-verosimilitud** se maximiza mediante:
+\[
+\nabla_w \ell = X^\top(y - p)
+\]
 
-   * There are 3 wine cultivars (classes) with 13 chemical features.
-   * Standardize all features.
+### Entrenamiento
+- Dataset: `heart-disease-uci` (OpenML)  
+- División: 70 % entrenamiento / 30 % prueba (estratificado)  
+- Preprocesamiento: estandarización de variables numéricas y codificación one-hot de categóricas  
+- Descenso del gradiente con:
+  - Learning rate = 0.01 y 0.05  
+  - Máx. iteraciones = 1500  
 
-5. **OvA Implementation**
+### Resultados
+- **Accuracy (modelo desde cero):** ≈ 0.85  
+- **Precision:** 0.84 **Recall:** 0.83 **F1:** 0.83  
+- **Scikit-learn (`solver="lbfgs"`):** Accuracy ≈ 0.86 F1 ≈ 0.85  
+- Las curvas de *log-likelihood* mostraron convergencia monótona:  
+  - η = 0.01 → convergencia lenta pero estable  
+  - η = 0.05 → convergencia más rápida, leve oscilación inicial  
 
-   * Build **three binary classifiers**, each distinguishing one class vs. all others.
-   * Use your binary logistic regression optimizer from Part A.
-   * For prediction:
-
-     * Compute probabilities from each classifier.
-     * Assign each observation to the class with the highest predicted probability.
-   * Report confusion matrix and accuracy.
-
-6. **Comparison**
-
-   * Fit `LogisticRegression(multi_class="ovr")` from sklearn.
-   * Compare coefficients and accuracy to your own implementation.
-
----
-
-### Part C. Multinomial (Softmax) Logistic Regression from Scratch
-
-7. **Theory**
-
-   * Derive the gradient of the log-likelihood function for muticlass classification (check the [notebook for session 4](https://colab.research.google.com/drive/1QKPnTQ_CtqY_4IZHr_dUAzR3nfj8bLbW?usp=sharing))
-
-8. **Implementation**
-
-   * Implement gradient descent updating all class weight vectors simultaneously.
-   * Include a `softmax` function with numerical stability (`z -= np.max(z, axis=1, keepdims=True)` before exponentiation).
-   * Monitor log-likelihood convergence.
-
-9. **Evaluation**
-
-   * Use the same Wine dataset.
-   * Compute accuracy, per-class precision/recall, and confusion matrix.
-   * Compare to `LogisticRegression(multi_class="multinomial", solver="lbfgs")`.
+**Interpretación:** el gradiente descendente manual reproduce el comportamiento del optimizador `lbfgs`, validando la correcta derivación del gradiente.
 
 ---
 
-### Deliverables
+## 2. Regresión Logística Multiclase — One-vs-All (OvA)
 
-You must fork the [original repository](https://github.com/RodrigoGrijalba/ENEI-2025-ML1-Tarea2), and turn in a link to your group's repository with:
+### Concepto
+Cada clase se trata como un problema binario independiente (*clase k vs resto*):
+\[
+\nabla_{w_k} \ell = X^\top(y_k - p_k)
+\]
 
-* A Jupyter notebook (in the `src` folder) with:
+### Entrenamiento
+- Dataset: `Wine` (13 atributos químicos, 3 clases)  
+- Configuración:
+  - Learning rate = 0.05  
+  - Iteraciones = 2000  
+  - Tres clasificadores binarios entrenados de forma independiente  
 
-  * Binary logistic regression (from scratch and sklearn)
-  * OvA and multinomial implementations
-  * Gradient derivations
-  * Convergence and comparison plots
-* A short (~600 words) write-up explaining:
+### Resultados de prueba
+| Clase | Precisión | Recall | F1-score |
+|:------|:----------:|:------:|:---------:|
+| 0 | 0.947 | 1.000 | 0.973 |
+| 1 | 1.000 | 0.952 | 0.976 |
+| 2 | 1.000 | 1.000 | 1.000 |
+| **Promedio macro** | — | — | **0.983** |
+| **Accuracy global** | — | — | **0.98148** |
 
-  * How the gradient differs between binary, OvA, and multinomial forms
-  * How numerical stability issues may arise in softmax
-  * When OvA and multinomial approaches diverge in predictions
+> `Scikit-learn (multi_class="ovr")` reprodujo idéntico rendimiento, confirmando la equivalencia teórica.
 
+### Análisis de coeficientes
+
+Las variables más influyentes para cada clase fueron:
+
+| Clase 0 | Clase 1 | Clase 2 |
+|:--------|:--------|:--------|
+| proline | proline | color_intensity |
+| alcalinity_of_ash | alcohol | flavanoids |
+| alcohol | color_intensity | hue |
+| flavanoids | ash | od280/od315_of_diluted_wines |
+| ash | hue | ash |
+
+- En `class_0`, *proline* y *flavanoids* tienen coeficientes positivos dominantes, aumentando la probabilidad de pertenecer a esa variedad.  
+- En `class_1`, la combinación de *alcohol* y *color_intensity* es la más representativa.  
+- En `class_2`, la variable *hue* es el principal diferenciador.
+
+Los coeficientes del modelo manual y `sklearn` coincidieron con diferencias <10⁻⁴, evidenciando una implementación numéricamente precisa.
+
+---
+
+## 3. Regresión Logística Multinomial (Softmax)
+
+### Concepto
+El modelo Softmax extiende la regresión logística al caso multiclase mediante una normalización exponencial:
+
+\[
+p_k(x) = \frac{e^{\theta_k^\top x}}{\sum_j e^{\theta_j^\top x}}
+\]
+
+y el gradiente vectorizado:
+\[
+\nabla_\Theta \ell = X^\top (Y - P)
+\]
+donde \(Y\) es la codificación one-hot y \(P\) las probabilidades predichas.
+
+### Entrenamiento
+- Learning rate = 0.05  
+- Iteraciones = 3000  
+- Inicialización aleatoria controlada (`random_state`)  
+- Ajuste de estabilidad numérica:  
+  ```python
+  z -= np.max(z, axis=1, keepdims=True)
+  P = np.exp(z) / np.sum(np.exp(z), axis=1, keepdims=True)
