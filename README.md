@@ -7,6 +7,7 @@ Curso: 2025-G1-910040-3-PEUCD-MACHINE LEARNING I
 ## Integrantes del grupo
 
 - *Buleje Ticse, Jean Carlos*
+- *Rosales Chuco, Noel Ivan*
 - *Sebastian Rios, Wilder Teddy*
 
 ## Introducción 
